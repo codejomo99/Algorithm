@@ -1,39 +1,36 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public int solution(int[] rank, boolean[] attendance) {
         int answer = 0;
-        int count = 0;
-        int a, b, c;
-        
-        // 학생의 등수와 인덱스를 저장할 리스트
-        List<int[]> rankList = new ArrayList<>();
+
+        // rank와 index를 저장할 Map
+        Map<Integer, Integer> rankMap = new HashMap<>();
         
         for (int i = 0; i < rank.length; i++) {
-            rankList.add(new int[]{rank[i], i});
+            rankMap.put(rank[i], i);
         }
         
-        // 등수를 기준으로 오름차순 정렬
-        rankList.sort((r1, r2) -> Integer.compare(r1[0], r2[0]));
+        // rank를 키로 하여 정렬된 키 목록을 생성
+        List<Integer> sortedRanks = new ArrayList<>(rankMap.keySet());
+        Collections.sort(sortedRanks);
         
         int[] result = new int[3];
-        int n = 0;
+        int count = 0;
         
-        for (int[] r : rankList) {
-            int index = r[1];
+        // 등수가 낮은 순서대로 attendance를 확인하고 선발
+        for (int r : sortedRanks) {
+            int index = rankMap.get(r);
             if (attendance[index]) {
-                result[n++] = index;
-                count++;
+                result[count++] = index;
                 if (count == 3) break; // 3명을 다 선발하면 종료
             }
         }
         
-        // a, b, c 학생 번호를 result에서 가져오기
-        a = result[0];
-        b = result[1];
-        c = result[2];
-        
+        // 결과 계산
+        int a = result[0];
+        int b = result[1];
+        int c = result[2];
         answer = a * 10000 + b * 100 + c;
         
         return answer;
