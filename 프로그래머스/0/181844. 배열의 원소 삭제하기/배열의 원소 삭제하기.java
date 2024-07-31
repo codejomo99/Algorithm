@@ -3,22 +3,27 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] arr, int[] delete_list) {
         
-        List<Integer> list = new ArrayList<>();
-        Set<Integer> deleteSet = new HashSet<>();
+        ArrayList<Integer> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
         
-        for(int n : delete_list){
-            deleteSet.add(n);
+        for(int i : arr){
+            list1.add(i);
         }
         
-        for(int n : arr){
-            if(!deleteSet.contains(n)){
-                list.add(n);
+        for(int i : delete_list){
+            list2.add(i);
+        }
+        
+        for(int i = list1.size()-1; i >= 0; i--){
+            if(list2.contains(list1.get(i))){
+                list1.remove(i);
             }
         }
         
-        int[] answer = new int[list.size()];
-        for(int k = 0; k < list.size(); k++){
-            answer[k] = list.get(k);
+        int[] answer = new int[list1.size()];
+        
+        for(int i = 0; i < list1.size(); i++){
+            answer[i] = list1.get(i);
         }
         
         return answer;
