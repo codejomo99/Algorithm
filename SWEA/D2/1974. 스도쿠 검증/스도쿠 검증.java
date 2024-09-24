@@ -1,78 +1,83 @@
 import java.util.Scanner;
 
+class Solution {
 
-public class Solution {
-
-  public static void main(String[] args) {
-
+  public static void main(String args[]) throws Exception {
     Scanner sc = new Scanner(System.in);
     int T = sc.nextInt();
-    for(int t = 1; t <= T; t++) {
-      int[][] puzzle = new int[9][9];
 
-      // puzzle
-      for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 9; j++){
-          puzzle[i][j] = sc.nextInt();
+    for(int t = 1; t <= T; t++) {
+      int[][] board = new int[9][9];
+
+      // 입력 받음
+      for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+          board[i][j] = sc.nextInt();
         }
       }
 
-      boolean isValid = checkPuzzle(puzzle);
-
-      System.out.printf("#%d %d\n", t, isValid ? 1 : 0);
-
+      // 행, 열, 3x3 박스가 모두 유효한지 체크
+      if(checkX(board) && checkY(board) && checkBox(board)){
+        System.out.println("#" + t + " " + 1);
+      } else {
+        System.out.println("#" + t + " " + 0);
+      }
     }
     sc.close();
   }
 
-  private static boolean checkPuzzle(int[][] puzzle){
-
-    for(int i = 0; i < 9; i++){
-      if(!checkRow(puzzle,i) || !checkColumn(puzzle,i) || ! checkGrid(puzzle,i)) {
-        return false;
+  // 행 검사
+  public static boolean checkX(int[][] board) {
+    for (int i = 0; i < 9; i++) {
+      int[] check = new int[10];
+      for (int j = 0; j < 9; j++) {
+        check[board[i][j]]++;
+      }
+      // 숫자 1부터 9가 딱 한 번 나왔는지 확인
+      for (int k = 1; k <= 9; k++) {
+        if (check[k] != 1) {
+          return false;  // 유효하지 않으면 false 반환
+        }
       }
     }
-    return true;
+    return true;  // 모든 행이 유효하면 true 반환
   }
 
-  // 가로
-  private static boolean checkRow(int[][] puzzle, int row) {
-    boolean[] found = new boolean[9];
-    for (int j = 0; j < 9; j++) {
-      int num = puzzle[row][j];
-      if (found[num - 1]) return false; // 이미 숫자가 있다면 유효하지 않음
-      found[num - 1] = true;
-    }
-    return true;
-  }
-
-  // 세로
-  private static boolean checkColumn(int[][] puzzle, int col){
-    boolean[] found = new boolean[9];
-    for(int i = 0; i < 9; i++){
-      int num = puzzle[i][col];
-      if(found[num-1]) return false;
-      found[num-1] = true;
-    }
-    return true;
-  }
-
-  // 3 x 3
-  private static boolean checkGrid(int[][] puzzle, int grid){
-    boolean[] found = new boolean[9];
-    int startRow = (grid/3) * 3;
-    int startCol = (grid%3) * 3;
-
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        int num = puzzle[startRow + i][startCol + j];
-        if (found[num - 1]) return false; // 이미 숫자가 있다면 유효하지 않음
-        found[num - 1] = true;
+  // 열 검사
+  public static boolean checkY(int[][] board) {
+    for (int i = 0; i < 9; i++) {
+      int[] check = new int[10];
+      for (int j = 0; j < 9; j++) {
+        check[board[j][i]]++;
+      }
+      // 숫자 1부터 9가 딱 한 번 나왔는지 확인
+      for (int k = 1; k <= 9; k++) {
+        if (check[k] != 1) {
+          return false;  // 유효하지 않으면 false 반환
+        }
       }
     }
-    return true;
+    return true;  // 모든 열이 유효하면 true 반환
+  }
 
+  // 3x3 박스 검사
+  public static boolean checkBox(int[][] board) {
+    for (int boxRow = 0; boxRow < 9; boxRow += 3) {
+      for (int boxCol = 0; boxCol < 9; boxCol += 3) {
+        int[] check = new int[10];
+        for (int i = 0; i < 3; i++) {
+          for (int j = 0; j < 3; j++) {
+            check[board[boxRow + i][boxCol + j]]++;
+          }
+        }
+        // 숫자 1부터 9가 딱 한 번 나왔는지 확인
+        for (int k = 1; k <= 9; k++) {
+          if (check[k] != 1) {
+            return false;  // 유효하지 않으면 false 반환
+          }
+        }
+      }
+    }
+    return true;  // 모든 박스가 유효하면 true 반환
   }
 }
-
-
