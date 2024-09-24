@@ -1,56 +1,64 @@
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
-public class Solution {
 
-  public static void main(String[] args) {
+class Solution {
+
+  public static void main(String args[]) throws Exception {
+
     Scanner sc = new Scanner(System.in);
 
-    int T = sc.nextInt(); // 테스트 케이스
+    int T = sc.nextInt();
 
-    for(int t = 1; t<=T; t++){
-      int students = sc.nextInt(); // 학생 수 입력
-      int studentsK = sc.nextInt() - 1; // K번째 학생
+    for(int t = 1; t <= T; t++){
+      // 학생 수
+      int n = sc.nextInt();
 
-      double[] scores = new double[students];
-      double[] ranks = new double[students];
-      String[] grades = {"A+","A0","A-","B+","B0","B-","C+","C0","C-","D0"};
+      // 학점을 알고 싶어하는 학생의 번호
+      int k = sc.nextInt() - 1;
 
-      for(int s = 0; s < students; s++){
-        int midScore = sc.nextInt(); // 중간
-        int finScore = sc.nextInt(); // 기말
-        int assScore = sc.nextInt(); // 과제
 
-        double score = 0.35 * midScore + 0.45 * finScore + 0.2 * assScore;
-        scores[s] = score;
-        ranks[s] = score;
+      // 학생들의 총점 점수
+      double[] student = new double[n];
+
+      // 학생들의 Rank 를 위한 배열, 내림차순을 위해 Double 형
+      Double[] Rank = new Double[n];
+
+      // 학생들의 총점을 계산
+      for(int i = 0; i < n; i++){
+        int midScore = sc.nextInt();
+        int finalScore = sc.nextInt();
+        int studyScore = sc.nextInt();
+
+        double total = midScore * 0.35 + finalScore * 0.45 + studyScore * 0.2;
+        student[i] = total;
+        Rank[i] = total;
       }
 
-      // 버블 정렬로 점수를 내림
-      for(int i = 0; i < students - 1; i++){
-        for(int j = 0; j < students -1 - i; j++){
-          if(ranks[j] < ranks[j + 1]){
-            double temp = ranks[j];
-            ranks[j] = ranks[j + 1];
-            ranks[j + 1] = temp;
-          }
-        }
-      }
+      // Rank 순위를 위한 내림차순
+      Arrays.sort(Rank, Collections.reverseOrder());
 
-      // k번째 학생 순위
-      int KRank = 0;
-      for(int rank = 0; rank < students; rank++){
-        if(ranks[rank] == scores[studentsK]){
-          KRank = rank;
-          break;
+
+      // k 번째 학생이 Rank 에 몇번째 있는지 확인
+      int studentIdx = 0;
+      for(int i = 0; i < n; i++){
+        if(student[k] == Rank[i]){
+          studentIdx = i;
         }
       }
 
       // 학점
-      int gradeIdx = KRank / (students / 10);
-      String KGrade = grades[gradeIdx];
+      String[] grade = {"A+","A0","A-","B+","B0","B-","C+","C0","C-","D0"};
 
-      System.out.printf("#%d %s\n",t,KGrade);
+      int studentGrade = studentIdx / (n / 10);
+      System.out.println("#"+t+" "+grade[studentGrade]);
+
     }
-    sc.close();;
+
+    sc.close();
   }
+
+
 }
