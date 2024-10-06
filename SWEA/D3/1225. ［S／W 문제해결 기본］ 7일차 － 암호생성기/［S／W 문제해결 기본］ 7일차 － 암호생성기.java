@@ -1,46 +1,50 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.io.FileInputStream;
+import java.util.*;
 
-public class Solution {
-  public static void main(String[] args) {
+class Solution {
+
+  static int[] arr;
+
+  public static void main(String[] args) throws Exception {
+
     Scanner sc = new Scanner(System.in);
 
-    // 테스트 케이스는 10개
-    for (int test_case = 1; test_case <= 10; test_case++) {
-      int t = sc.nextInt(); // 테스트 케이스 번호
+    for (int t = 1; t <= 10; t++) {
+      int n = sc.nextInt();
 
       Queue<Integer> q = new LinkedList<>();
 
-      for(int i = 0; i < 8; i++){
-        q.offer(sc.nextInt());
+      // q에 담는다.
+      for (int i = 0; i < 8; i++) {
+        q.add(sc.nextInt());
       }
 
-
-      boolean finish = true;
-
-      while(finish) {
+      boolean flag = true;
+      while (flag) {
         for (int i = 1; i <= 5; i++) {
-          int n = q.poll() - i;
-
-          if (n <= 0) {
+          int num = q.poll() - i;
+          if (num <= 0) {
             q.offer(0);
-            finish = false;
+            flag = false;
             break;
           } else {
-            q.offer(n);
+            q.offer(num);
           }
         }
       }
 
-      System.out.print("#"+test_case+" ");
-      for(int num : q){
-        System.out.print(num+" ");
+      System.out.print("#"+t+" ");
+      for (int i : q) {
+        System.out.print(i + " ");
       }
       System.out.println();
 
+
     }
 
-    sc.close();
+
   }
 }
+
+
+
