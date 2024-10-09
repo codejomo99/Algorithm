@@ -1,37 +1,54 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Scanner;
-public class Solution {
+import java.util.*;
+
+class Solution {
 
 
-  public static void main(String[] args) {
+  public static void main(String args[]) throws Exception {
     Scanner sc = new Scanner(System.in);
-    int N,K;
+
     for (int t = 1; t <= 10; t++) {
       int n = sc.nextInt();
 
       int[] arr = new int[100];
-
-      for(int i = 0; i < 100; i++){
+      for (int i = 0; i < 100; i++) {
         arr[i] = sc.nextInt();
       }
 
-      for(int i = 0; i < n; i++){
-        Arrays.sort(arr);
-        arr[0]++;
-        arr[arr.length-1]--;
+      // n번 반복
+      for (int i = 0; i < n; i++) {
+
+        int maxIdx = 0;
+        int minIdx = 0;
+
+        // 가장 크고 작은 idx 구하기
+        for (int j = 0; j < 100; j++) {
+          if (arr[j] > arr[maxIdx]) {
+            maxIdx = j;
+          } else if (arr[j] < arr[minIdx]) {
+            minIdx = j;
+          }
+        }
+
+        // 낮추고 더하기
+        arr[maxIdx]--;
+        arr[minIdx]++;
+
       }
-	
-        Arrays.sort(arr);
-        
-      int answer = arr[arr.length-1] - arr[0];
 
-      System.out.printf("#%d %d\n",t,answer);
+      int max = Integer.MIN_VALUE;
+      int min = Integer.MAX_VALUE;
 
+      for (int i : arr) {
+        max = Math.max(max, i);
+        min = Math.min(min, i);
+      }
 
-
+      System.out.println("#" +t+" "+(max-min));
 
     }
+
+
   }
+
+
 }
