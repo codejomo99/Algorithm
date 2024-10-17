@@ -19,7 +19,7 @@ public class Main {
             dp[5] = 2L;
 
             for (int j = 6; j <= x; j++) {
-                dp[j] = dp[j - 2] + dp[j - 3];
+                dp[j] = dp[j - 5] + dp[j - 1];
             }
 
             System.out.println(dp[x]);
