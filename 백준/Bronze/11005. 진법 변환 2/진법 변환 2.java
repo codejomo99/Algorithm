@@ -1,33 +1,30 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
-class Main {
+public class Main {
 
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
 
-    int n = sc.nextInt();
-    int m = sc.nextInt();
-    int tmp = 0;
+        Scanner sc = new Scanner(System.in);
 
-    String result = "";
-    while(n > 0){
-      tmp = n % m;
-      if(tmp >= 10){
-        char c = (char) ( tmp + 55);
-        result += c;
-      }else{
-        result += tmp;
-      }
-      n = n / m;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int tmp = 0;
+
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            tmp = n % m;
+            if (tmp >= 10) {
+                char c = (char) (tmp + 55);
+                sb.append(c);
+            } else {
+                sb.append(tmp);
+            }
+            n = n / m;
+        }
+
+        String result = new StringBuilder(sb).reverse().toString();
+
+        System.out.println(result);
+
     }
-
-    for(int i = result.length() - 1; i >= 0; i --){
-      System.out.print(result.charAt(i));
-    }
-  }
-
 }
-
-
