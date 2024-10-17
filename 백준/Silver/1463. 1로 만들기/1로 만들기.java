@@ -1,43 +1,61 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
+
 
 public class Main {
 
-    static Integer[] dp;
+    static int[] dp;
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        Scanner in = new Scanner(System.in);
+        int n = sc.nextInt();
+        dp = new int[n + 1];
+        for (int i = 2; i <= n; i++) {
+            dp[i] = -1;
+        }
 
-        int N = in.nextInt();
+        System.out.println(bfs(n));
 
-        dp = new Integer[N + 1];
-        dp[0] = dp[1] = 0;
-
-        System.out.print(recur(N));
 
     }
 
-    static int recur(int N) {
+    public static int bfs(int n) {
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[n + 1];
+        queue.offer(n);
+        visited[n] = true;
 
-        if (dp[N] == null) {
-            // 6으로 나눠지는 경우
-            if (N % 6 == 0) {
-                dp[N] = Math.min(recur(N - 1), Math.min(recur(N / 3), recur(N / 2))) + 1;
+        int steps = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++) {
+                int cur = queue.poll();
+
+                if (cur == 1) {
+                    return steps;
+                }
+
+                if (cur % 3 == 0 && !visited[cur / 3]) {
+                    visited[cur] = true;
+                    queue.offer(cur / 3);
+                }
+                if (cur % 2 == 0 && !visited[cur / 2]) {
+                    visited[cur] = true;
+                    queue.offer(cur / 2);
+                }
+                if (cur > 1 && !visited[cur - 1]) {
+                    visited[cur] = true;
+                    queue.offer(cur - 1);
+                }
             }
-            // 3으로만 나눠지는 경우
-            else if (N % 3 == 0) {
-                dp[N] = Math.min(recur(N / 3), recur(N - 1)) + 1;
-            }
-            // 2로만 나눠지는 경우
-            else if (N % 2 == 0) {
-                dp[N] = Math.min(recur(N / 2), recur(N - 1)) + 1;
-            }
-            // 2와 3으로 나누어지지 않는 경우
-            else {
-                dp[N] = recur(N - 1) + 1;
-            }
+            steps++;
         }
-        return dp[N];
+
+        return steps;
     }
 
 }
