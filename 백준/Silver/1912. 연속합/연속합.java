@@ -1,0 +1,29 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        // 배열 입력 받기
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // 카데인 알고리즘을 사용하여 최대 구간 합 계산
+        int maxSum = arr[0];
+        int currentSum = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            // 현재까지의 구간 합과 현재 원소를 비교하여 더 큰 값을 선택
+            currentSum = Math.max(arr[i], currentSum + arr[i]);
+            // 최대 구간 합 갱신
+            maxSum = Math.max(maxSum, currentSum);
+        }
+
+        System.out.println(maxSum);
+    }
+}
