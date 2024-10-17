@@ -1,38 +1,37 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    int T = sc.nextInt();
+    public static void main(String[] args) {
 
-    for(int t = 1; t <= T; t++){
-      int n = sc.nextInt();
-      int[] heights = new int[20];
+        Scanner sc = new Scanner(System.in);
 
-      for(int i = 0; i < 20; i++){
-        heights[i] = sc.nextInt();
-      }
+        int T = sc.nextInt();
 
-      int steps = 0;
+        for (int t = 1; t <= T; t++) {
+            int n = sc.nextInt();
+            int[] arr = new int[20];
 
-      for(int i = 1; i < 20; i++){
-        int cur = heights[i];
-        int j = i -1;
+            for (int i = 0; i < 20; i++) {
+                arr[i] = sc.nextInt();
+            }
 
-        while(j >= 0 && heights[j] > cur){
-          heights[j+1] = heights[j];
-          j--;
-          steps++;
+            int cnt = 0;
+
+            for (int i = 0; i < 20; i++) {
+                for (int j = i + 1; j < 20; j++) {
+                    if (arr[i] > arr[j]) {
+                        int temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                        cnt++;
+                    }
+                }
+            }
+
+            System.out.println(n + " " + cnt);
+
+
         }
-        heights[j+1] = cur;
-      }
-
-      System.out.println(t+" "+steps);
-
-
-
     }
-  }
 }
