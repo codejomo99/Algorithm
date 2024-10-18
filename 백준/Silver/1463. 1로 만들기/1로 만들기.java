@@ -4,58 +4,53 @@ import java.util.Scanner;
 
 
 public class Main {
-
-    static int[] dp;
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
-        dp = new int[n + 1];
-        for (int i = 2; i <= n; i++) {
-            dp[i] = -1;
-        }
 
         System.out.println(bfs(n));
-
 
     }
 
     public static int bfs(int n) {
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> q = new LinkedList<>();
         boolean[] visited = new boolean[n + 1];
-        queue.offer(n);
+        q.offer(n);
         visited[n] = true;
 
-        int steps = 0;
+        int level = 0;
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        while (!q.isEmpty()) {
+            int len = q.size();
 
-            for (int i = 0; i < size; i++) {
-                int cur = queue.poll();
+            for (int i = 0; i < len; i++) {
+                int temp = q.poll();
 
-                if (cur == 1) {
-                    return steps;
+                if (temp == 1) {
+                    return level;
                 }
 
-                if (cur % 3 == 0 && !visited[cur / 3]) {
-                    visited[cur] = true;
-                    queue.offer(cur / 3);
+                if (temp % 3 == 0 && !visited[temp / 3]) {
+                    visited[temp] = true;
+                    q.offer(temp / 3);
                 }
-                if (cur % 2 == 0 && !visited[cur / 2]) {
-                    visited[cur] = true;
-                    queue.offer(cur / 2);
+
+                if (temp % 2 == 0 && !visited[temp/2]) {
+                    visited[temp] = true;
+                    q.offer(temp / 2);
                 }
-                if (cur > 1 && !visited[cur - 1]) {
-                    visited[cur] = true;
-                    queue.offer(cur - 1);
+                
+                if(temp > 1 && !visited[temp - 1]){
+                    visited[temp] = true;
+                    q.offer(temp - 1);
                 }
+
+                
             }
-            steps++;
+            level++;
         }
 
-        return steps;
+        return -1;
     }
-
 }
