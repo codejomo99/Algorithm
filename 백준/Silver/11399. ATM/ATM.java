@@ -2,11 +2,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 class Main {
-
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
+        Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] arr = new int[n];
 
@@ -16,15 +14,16 @@ class Main {
 
         Arrays.sort(arr);
 
+        int num = 0;
         int sum = 0;
-        int prev = 0;
         for (int i = 0; i < n; i++) {
-            prev += arr[i];
-            sum += prev;
+            num += arr[i];
+            sum += num;
+
         }
 
         System.out.println(sum);
-
-
     }
+
+
 }
