@@ -1,51 +1,59 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
+
+    static int blue, white, n;
     static int[][] board;
-    static int blue = 0;
-    static int white = 0;
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        int N = sc.nextInt();
+        n = sc.nextInt();
+        board = new int[n][n];
 
-        board = new int[N][N];
-
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 board[i][j] = sc.nextInt();
             }
         }
 
-        partition(0, 0, N);
+        dfs(0, 0, n);
 
         System.out.println(white);
         System.out.println(blue);
+
     }
 
-    public static void partition(int row, int col, int size) {
-        if (colorCheck(row, col, size)) {
-            if (board[row][col] == 0) {
-                white++;
-            } else {
+
+    public static void dfs(int row, int col, int size) {
+
+        if (checkColor(row, col, size)) {
+            if (board[row][col] == 1) {
                 blue++;
+            } else {
+                white++;
             }
 
             return;
         }
 
-        int newSize = size / 2;
+        int nSize = size / 2;
 
-        partition(row, col, newSize); // 1사분면
-        partition(row, col + newSize, newSize); // 2사분면
-        partition(row + newSize, col, newSize); // 3사분면
-        partition(row + newSize, col + newSize, newSize); // 4사분면
+        // 1사분면
+        dfs(row, col, nSize);
+        // 2사분면
+        dfs(row, col + nSize, nSize);
+        // 3사분면
+        dfs(row + nSize, col, nSize);
+        // 4사분면
+        dfs(row + nSize, col + nSize, nSize);
+
 
     }
 
-    public static boolean colorCheck(int row, int col, int size) {
+
+    public static boolean checkColor(int row, int col, int size) {
         int color = board[row][col];
 
         for (int i = row; i < row + size; i++) {
@@ -55,6 +63,7 @@ public class Main {
                 }
             }
         }
+
         return true;
     }
 
