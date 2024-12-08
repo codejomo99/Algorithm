@@ -3,84 +3,84 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class Main {
+public class Main {
 
-    int[] A;
-    static int[] tmp; // 정렬 후 저장 배열
-    static int result = -1;
-    static int cnt = 0; // 저장 횟수 누적 저장
-    static int K; // 저장 횟수
+    static int[] tempArray; // 병합 과정에서 사용할 임시 배열
+    static int result = -1; // K번째 저장되는 값을 저장
+    static int saveCount = 0; // 저장 횟수를 누적
+    static int K; // 목표 저장 횟수 K
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+        // 입력 받기
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken()); // 배열 크기
-        K = Integer.parseInt(st.nextToken()); // 저장 횟수
+        K = Integer.parseInt(st.nextToken()); // K번째 저장 횟수
 
-        int[] A = new int[N]; // 배열 초기화
-        tmp = new int[N];
+        int[] array = new int[N]; // 정렬할 배열
+        tempArray = new int[N]; // 병합 정렬에 필요한 임시 배열
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            A[i] = Integer.parseInt(st.nextToken());
+            array[i] = Integer.parseInt(st.nextToken());
         }
 
-        merge_sort(A, 0, N - 1);
+        // 병합 정렬 수행
+        mergeSort(array, 0, N - 1);
 
+        // 결과 출력
         System.out.println(result);
-
     }
 
-    // 오름차순 정렬 메서드
-    static void merge_sort(int[] A, int p, int r) {
-        if (cnt > K) {
-            return; // 저장 횟수보다 진행 횟수가 많아지면 더이상 진행 ㄴㄴ
-        }
-        if (p < r) {
-            int q = (p + r) / 2;
-            merge_sort(A, p, q); // 중간에서 왼쪽
-            merge_sort(A, q + 1, r); // 중간에서 오른쪽
-            merge(A, p, q, r); // 병합
+    // 병합 정렬 알고리즘
+    static void mergeSort(int[] array, int start, int end) {
+        // 배열을 분할하여 정렬
+        if (start < end) {
+            int mid = (start + end) / 2;
+
+            // 왼쪽 절반 정렬
+            mergeSort(array, start, mid);
+            // 오른쪽 절반 정렬
+            mergeSort(array, mid + 1, end);
+            // 병합 과정
+            merge(array, start, mid, end);
         }
     }
 
-    static void merge(int[] arr, int p, int q, int r) {
-        // arr 배열, p : 시작점, q : 중간지점, r : 마지막점
-        int i = p;
-        int j = q + 1;
-        int t = 0;
+    // 병합 과정
+    static void merge(int[] array, int start, int mid, int end) {
+        int leftIndex = start;    // 왼쪽 배열의 시작점
+        int rightIndex = mid + 1; // 오른쪽 배열의 시작점
+        int tempIndex = 0;        // 임시 배열의 인덱스
 
-        // 시작 인덱스가 중간 인덱스보다 작고, 중간 인덱스가 마지막 인덱스보다 작을 경우 반복
-        while (i <= q && j <= r) {
-            if (arr[i] < arr[j]) {
-                tmp[t++] = arr[i++];
+        // 두 부분 배열을 병합하여 정렬
+        while (leftIndex <= mid && rightIndex <= end) {
+            if (array[leftIndex] <= array[rightIndex]) {
+                tempArray[tempIndex++] = array[leftIndex++];
             } else {
-                tmp[t++] = arr[j++];
+                tempArray[tempIndex++] = array[rightIndex++];
             }
         }
 
-        // 다 정렬하고 남은 경우
-        while (i <= q) {
-            tmp[t++] = arr[i++];
+        // 왼쪽 부분에 남아있는 값 복사
+        while (leftIndex <= mid) {
+            tempArray[tempIndex++] = array[leftIndex++];
         }
 
-        while (j <= r) {
-            tmp[t++] = arr[j++];
+        // 오른쪽 부분에 남아있는 값 복사
+        while (rightIndex <= end) {
+            tempArray[tempIndex++] = array[rightIndex++];
         }
 
-        i = p;
-        t = 0;
-
-        while (i <= r) {
-            cnt++;
-
-            if (cnt == K) {
-                result = tmp[t];
-                break;
+        // 정렬된 값을 원본 배열에 복사하며 저장 횟수 추적
+        tempIndex = 0;
+        for (int i = start; i <= end; i++) {
+            saveCount++;
+            if (saveCount == K) {
+                result = tempArray[tempIndex]; // K번째 저장되는 값 저장
             }
-
-            arr[i++] = tmp[t++];
+            array[i] = tempArray[tempIndex++];
         }
     }
 }
