@@ -1,9 +1,8 @@
 class Solution {
     public String solution(int num) {
         String answer = "";
-
-        answer = num % 2 == 0 ? "Even" : "Odd";
-
+        
+        num % 2 == 0 ? answer = "Even" : answer = "Odd";
         return answer;
     }
 }
