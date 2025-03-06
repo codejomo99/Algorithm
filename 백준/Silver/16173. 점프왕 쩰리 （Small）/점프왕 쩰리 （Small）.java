@@ -5,9 +5,9 @@ import java.util.StringTokenizer;
 
 class Main{
 
-    static int[][] newBoard;
-    static int[][] board;
     static int N;
+    static int[][] board, newBoard;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,6 +15,7 @@ class Main{
         N = Integer.parseInt(br.readLine());
 
         board = new int[N][N];
+        newBoard = new int[N][N];
 
         for(int i = 0; i < N; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -23,25 +24,23 @@ class Main{
             }
         }
 
-        newBoard = new int[N][N];
-
         dfs(0,0);
 
-        if(newBoard[N-1][N-1] != 1){
-            System.out.println("Hing");
-        }else{
+
+        if(newBoard[N-1][N-1] == 1){
             System.out.println("HaruHaru");
+        }else{
+            System.out.println("Hing");
         }
 
     }
+
     public static void dfs(int x, int y){
         int[] dx = {0,1};
         int[] dy = {1,0};
 
-        newBoard[x][y] = 1;
         int num = board[x][y];
-
-
+        newBoard[x][y] = 1;
 
         for(int i = 0; i < 2; i++){
             int nx = x + dx[i] * num;
@@ -51,5 +50,7 @@ class Main{
                 dfs(nx,ny);
             }
         }
+
+
     }
 }
