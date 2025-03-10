@@ -1,32 +1,43 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+class Main{
 
-        // 입력 받기
-        int N = sc.nextInt();  // 버스 개수
-        int T = sc.nextInt();  // 영식이 도착 시간
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    int N = Integer.parseInt(st.nextToken());
+    int Time = Integer.parseInt(st.nextToken());
 
-        int minWaitTime = Integer.MAX_VALUE;  // 최소 대기 시간 (최대값으로 초기화)
+    int result = Integer.MAX_VALUE;
 
-        for (int i = 0; i < N; i++) {
-            int Si = sc.nextInt();  // 시작 시간
-            int Ii = sc.nextInt();  // 간격
-            int Ci = sc.nextInt();  // 대수
+    for(int i = 0; i < N; i++){
+      st = new StringTokenizer(br.readLine());
+      int S = Integer.parseInt(st.nextToken());
+      int I = Integer.parseInt(st.nextToken());
+      int C = Integer.parseInt(st.nextToken());
 
-            // 버스 출발 시간 계산
-            for (int j = 0; j < Ci; j++) {
-                int departureTime = Si + (Ii * j);  // 버스 j번째 출발 시간
-                
-                if (departureTime >= T) {  // 영식이가 탈 수 있는 가장 빠른 버스 찾기
-                    minWaitTime = Math.min(minWaitTime, departureTime - T);
-                    break; // 더 이상 확인할 필요 없음 (최소 출발 시간 찾으면 break)
-                }
-            }
+
+      int left = 0, right = C - 1;
+      int BusTime = Integer.MAX_VALUE;
+
+      while(left <= right){
+        int mid =(left + right) / 2;
+
+        int currentTime = S + I * mid;
+
+        if(currentTime >= Time){
+          BusTime = Math.min(BusTime,currentTime - Time);
+          right--;
+        }else{
+          left++;
         }
-
-        // 결과 출력
-        System.out.println(minWaitTime == Integer.MAX_VALUE ? -1 : minWaitTime);
+      }
+      result = Math.min(result,BusTime);
     }
+
+    System.out.println(result == Integer.MAX_VALUE ? - 1 : result);
+  }
 }
