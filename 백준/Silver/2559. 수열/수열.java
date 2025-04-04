@@ -1,31 +1,36 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Main {
+class Main{
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] arr = new int[n];
+		int N = Integer.parseInt(st.nextToken());
+		int K = Integer.parseInt(st.nextToken());
 
-        arr[0] = sc.nextInt();
+		int[] arr = new int[N];
+		st = new StringTokenizer(br.readLine());
 
-        // 누적합
-        for (int i = 1; i < n; i++) {
-            arr[i] = arr[i - 1] + sc.nextInt();
-        }
-        
+		arr[0] = Integer.parseInt(st.nextToken());
 
-        // 누적합의 최대
-        int max = arr[m - 1];
+		for(int i = 1; i < N; i++){
+			arr[i] = arr[i-1] + Integer.parseInt(st.nextToken());
+		}
+		
 
-        for (int i = m; i < n; i++) {
-            int num = arr[i] - arr[i - m];
-            max = Math.max(max, num);
-        }
+		int max = arr[K-1];
+		for(int i = K; i < N; i++) {
+			max = Math.max(max, arr[i] - arr[i-K]);
+		}
 
-        System.out.println(max);
+		System.out.println(max);
 
-    }
+
+
+
+	}
 }
